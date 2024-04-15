@@ -42,7 +42,7 @@ STABLE_DIFFUSION_API void sd_images_free(const sd_image_t *images);
 STABLE_DIFFUSION_API void sd_image_free(sd_image_t *image);
 
 
-STABLE_DIFFUSION_API sd_image_t generate(
+STABLE_DIFFUSION_API sd_image_t* generate(
         sd_ctx_t *sd_ctx,
         int clip_skip,
         float cfg_scale,

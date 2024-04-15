@@ -53,7 +53,7 @@ void sd_image_free(sd_image_t *image) {
 //     image->channel = channel;
 // }
 
-sd_image_t generate(
+sd_image_t *generate(
         sd_ctx_t *sd_ctx,
         int clip_skip,
         float cfg_scale,
@@ -68,38 +68,37 @@ sd_image_t generate(
 ) {
     sd_image_t *results;
 
-    /*
-    sd_ctx_t *sd_ctx = new_sd_ctx(
-            "/media/ed/files/sd/models/Stable-diffusion/dreamshaperXL_v21TurboDPMSDE.safetensors",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            false,
-            false,
-            true,
-            -1,
-            static_cast<sd_type_t>(1),
-            static_cast<rng_type_t>(1),
-            static_cast<schedule_t>(2),
-            false,
-            false,
-            false
-    );
-*/
+
+//    sd_ctx_t *sd_ctx2 = new_sd_ctx(
+//            "/media/ed/files/sd/models/Stable-diffusion/dreamshaperXL_v21TurboDPMSDE.safetensors",
+//            "",
+//            "",
+//            "",
+//            "",
+//            "",
+//            "",
+//            false,
+//            false,
+//            true,
+//            -1,
+//            static_cast<sd_type_t>(1),
+//            static_cast<rng_type_t>(1),
+//            static_cast<schedule_t>(2),
+//            false,
+//            false,
+//            false
+//    );
 
     if (sd_ctx == NULL) {
         LOG_DEBUG("sd_ctx is NULL");
-        return results[0];
+        return results;
     }
 
     results = txt2img(
             sd_ctx,
             "1girl",
             "extra limbs",
-            2,
+            0,
             2,
             768,
             1024,
@@ -107,7 +106,7 @@ sd_image_t generate(
             4,
             4242,
             1,
-            nullptr,
+            NULL,
             0,
             0,
             false,
@@ -116,12 +115,11 @@ sd_image_t generate(
 
     if (results == NULL) {
         LOG_DEBUG("results is NULL");
-        return results[0];
+        return results;
     }
 
-    sd_image_t current_image = results[0];
-
-    LOG_DEBUG("result is %dx%d", current_image.width, current_image.height);
+//    sd_image_t current_image = results[0];
+//    LOG_DEBUG("result is %dx%d", current_image.width, current_image.height);
 
 
 //    if (withUpscale) {
@@ -134,7 +132,7 @@ sd_image_t generate(
 //        current_image = upscale(upscaler_ctx, current_image, 2);
 //    }
 
-    return current_image;
+    return results;
 }
 
 sd_ctx_t *new_sd_ctx_go() {
