@@ -79,9 +79,9 @@ sd_image_t *upscale_go(
     return output_image;
 }
 
-sd_ctx_t *new_sd_ctx_go() {
+sd_ctx_t *new_sd_ctx_go(const char *model_path) {
     return new_sd_ctx(
-            "/media/ed/files/sd/models/Stable-diffusion/dreamshaperXL_v21TurboDPMSDE.safetensors",
+            model_path,
             "",
             "",
             "",
@@ -98,13 +98,5 @@ sd_ctx_t *new_sd_ctx_go() {
             false,
             false,
             false
-    );
-}
-
-upscaler_ctx_t *new_upscaler_ctx_go() {
-    return new_upscaler_ctx(
-            "/media/ed/files/sd/models/ESRGAN/RealESRGAN_x4plus_anime_6B.pth",
-            -1,
-            static_cast<sd_type_t>(1)
     );
 }

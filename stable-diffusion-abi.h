@@ -50,8 +50,7 @@ STABLE_DIFFUSION_API sd_image_t *upscale_go(
         uint8_t *data
 );
 
-STABLE_DIFFUSION_API sd_ctx_t *new_sd_ctx_go();
-STABLE_DIFFUSION_API upscaler_ctx_t *new_upscaler_ctx_go();
+STABLE_DIFFUSION_API sd_ctx_t *new_sd_ctx_go(const char *model_path);
 
 #ifdef __cplusplus
 }
