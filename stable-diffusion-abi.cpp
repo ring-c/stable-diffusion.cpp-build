@@ -53,85 +53,30 @@ void sd_image_free(sd_image_t *image) {
 //     image->channel = channel;
 // }
 
-sd_image_t *generate(
-        sd_ctx_t *sd_ctx,
-        upscaler_ctx_t *upscaler_ctx,
-        int clip_skip,
-        float cfg_scale,
-        int width,
-        int height,
-        enum sample_method_t sample_method,
-        int sample_steps,
-        int64_t seed,
-        int batch_count,
-        bool withUpscale,
-        int upscaleScale
+sd_image_t *upscale_go(
+        upscaler_ctx_t *ctx,
+        uint32_t upscale_factor,
+        uint32_t width,
+        uint32_t height,
+        uint32_t channel,
+        uint8_t *data
 ) {
-    sd_image_t *results;
+    sd_image_t *output_image = new(sd_image_t);
 
+    sd_image_t input_image = sd_image_t{
+            .width=width,
+            .height=height,
+            .channel=channel,
+            .data=data,
+    };
 
-//    sd_ctx_t *sd_ctx2 = new_sd_ctx(
-//            "/media/ed/files/sd/models/Stable-diffusion/dreamshaperXL_v21TurboDPMSDE.safetensors",
-//            "",
-//            "",
-//            "",
-//            "",
-//            "",
-//            "",
-//            false,
-//            false,
-//            true,
-//            -1,
-//            static_cast<sd_type_t>(1),
-//            static_cast<rng_type_t>(1),
-//            static_cast<schedule_t>(2),
-//            false,
-//            false,
-//            false
-//    );
-
-    if (sd_ctx == NULL) {
-        LOG_DEBUG("sd_ctx is NULL");
-        return results;
+    if (ctx == NULL) {
+        LOG_DEBUG("ctx is NULL");
+        return output_image;
     }
 
-    results = txt2img(
-            sd_ctx,
-            "1girl",
-            "extra limbs",
-            0,
-            2,
-            768,
-            1024,
-            static_cast<sample_method_t>(0),
-            4,
-            4242,
-            1,
-            NULL,
-            0,
-            0,
-            false,
-            ""
-    );
-
-    if (results == NULL) {
-        LOG_DEBUG("results is NULL");
-        return results;
-    }
-
-    LOG_DEBUG("result is %dx%d", results[0].width, results[0].height);
-
-
-    if (withUpscale) {
-        if (upscaler_ctx == NULL) {
-            LOG_DEBUG("upscaler_ctx is NULL");
-            return results;
-        }
-
-        results[0] = upscale(upscaler_ctx, results[0], 2);
-    }
-
-    return results;
+    output_image[0] = upscale(ctx, input_image, upscale_factor);
+    return output_image;
 }
 
 sd_ctx_t *new_sd_ctx_go() {
