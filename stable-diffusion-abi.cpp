@@ -55,6 +55,7 @@ void sd_image_free(sd_image_t *image) {
 
 sd_image_t *generate(
         sd_ctx_t *sd_ctx,
+        upscaler_ctx_t *upscaler_ctx,
         int clip_skip,
         float cfg_scale,
         int width,
@@ -118,19 +119,17 @@ sd_image_t *generate(
         return results;
     }
 
-//    sd_image_t current_image = results[0];
-//    LOG_DEBUG("result is %dx%d", current_image.width, current_image.height);
+    LOG_DEBUG("result is %dx%d", results[0].width, results[0].height);
 
 
-//    if (withUpscale) {
-//        upscaler_ctx_t *upscaler_ctx = new_upscaler_ctx(
-//                "/media/ed/files/sd/models/ESRGAN/RealESRGAN_x4plus_anime_6B.pth",
-//                -1,
-//                static_cast<sd_type_t>(1)
-//        );
-//
-//        current_image = upscale(upscaler_ctx, current_image, 2);
-//    }
+    if (withUpscale) {
+        if (upscaler_ctx == NULL) {
+            LOG_DEBUG("upscaler_ctx is NULL");
+            return results;
+        }
+
+        results[0] = upscale(upscaler_ctx, results[0], 2);
+    }
 
     return results;
 }
@@ -154,5 +153,13 @@ sd_ctx_t *new_sd_ctx_go() {
             false,
             false,
             false
+    );
+}
+
+upscaler_ctx_t *new_upscaler_ctx_go() {
+    return new_upscaler_ctx(
+            "/media/ed/files/sd/models/ESRGAN/RealESRGAN_x4plus_anime_6B.pth",
+            -1,
+            static_cast<sd_type_t>(1)
     );
 }

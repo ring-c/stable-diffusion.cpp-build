@@ -42,8 +42,9 @@ STABLE_DIFFUSION_API void sd_images_free(const sd_image_t *images);
 STABLE_DIFFUSION_API void sd_image_free(sd_image_t *image);
 
 
-STABLE_DIFFUSION_API sd_image_t* generate(
+STABLE_DIFFUSION_API sd_image_t *generate(
         sd_ctx_t *sd_ctx,
+        upscaler_ctx_t *upscaler_ctx,
         int clip_skip,
         float cfg_scale,
         int width,
@@ -56,8 +57,8 @@ STABLE_DIFFUSION_API sd_image_t* generate(
         int upscaleScale
 );
 
-
 STABLE_DIFFUSION_API sd_ctx_t *new_sd_ctx_go();
+STABLE_DIFFUSION_API upscaler_ctx_t *new_upscaler_ctx_go();
 
 #ifdef __cplusplus
 }
