@@ -33,26 +33,6 @@ void sd_image_free(sd_image_t *image) {
     image = nullptr;
 }
 
-// sd_image_t new_image() {
-//
-// }
-//
-// void set_image_data(sd_image_t image, uint8_t* data) {
-//     image.data = data;
-// }
-//
-// void set_image_width(sd_image_t image, uint32_t width) {
-//     image.width = width;
-// }
-//
-// void set_image_height(sd_image_t image, uint32_t height) {
-//     imageheight = height;
-// }
-//
-// void set_image_channel(sd_image_t image, uint32_t channel) {
-//     image->channel = channel;
-// }
-
 sd_image_t *upscale_go(
         upscaler_ctx_t *ctx,
         uint32_t upscale_factor,
@@ -79,24 +59,82 @@ sd_image_t *upscale_go(
     return output_image;
 }
 
-sd_ctx_t *new_sd_ctx_go(const char *model_path) {
+sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
     return new_sd_ctx(
-            model_path,
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            false,
-            false,
-            true,
-            -1,
-            static_cast<sd_type_t>(1),
-            static_cast<rng_type_t>(1),
-            static_cast<schedule_t>(2),
-            false,
-            false,
-            false
+            context_params->model_path,
+            context_params->vae_path,
+            context_params->taesd_path,
+            context_params->control_net_path,
+            context_params->lora_model_dir,
+            context_params->embed_dir,
+            context_params->id_embed_dir,
+            context_params->vae_decode_only,
+            context_params->vae_tiling,
+            context_params->free_params_immediately,
+            context_params->n_threads,
+            context_params->wType,
+            context_params->rng_type,
+            context_params->schedule,
+            context_params->keep_clip_on_cpu,
+            context_params->keep_control_net_cpu,
+            context_params->keep_vae_on_cpu
     );
+}
+
+new_sd_ctx_go_params *new_sd_ctx_params(
+        const char *model_path,
+        const char *lora_model_dir,
+        const char *vae_path,
+        int n_threads,
+        enum sd_type_t wType,
+        enum rng_type_t rng_type,
+        enum schedule_t schedule
+) {
+    auto *params = new(new_sd_ctx_go_params);
+    params->model_path = model_path;
+    params->lora_model_dir = lora_model_dir;
+    params->vae_path = vae_path;
+    params->n_threads = n_threads;
+    params->wType = wType;
+    params->rng_type = rng_type;
+    params->schedule = schedule;
+
+    // Defaults
+    params->taesd_path = "";
+    params->control_net_path = "";
+    params->embed_dir = "";
+    params->id_embed_dir = "";
+    params->vae_decode_only = false;
+    params->vae_tiling = false;
+    params->free_params_immediately = false;
+    params->keep_clip_on_cpu = false;
+    params->keep_control_net_cpu = false;
+    params->keep_vae_on_cpu = false;
+
+    return params;
+}
+
+void new_sd_ctx_params_set(
+        new_sd_ctx_go_params *params,
+        const char *taesd_path,
+        const char *control_net_path,
+        const char *embed_dir,
+        const char *id_embed_dir,
+        bool vae_decode_only,
+        bool vae_tiling,
+        bool free_params_immediately,
+        bool keep_clip_on_cpu,
+        bool keep_control_net_cpu,
+        bool keep_vae_on_cpu
+) {
+    params->taesd_path = taesd_path;
+    params->control_net_path = control_net_path;
+    params->embed_dir = embed_dir;
+    params->id_embed_dir = id_embed_dir;
+    params->vae_decode_only = vae_decode_only;
+    params->vae_tiling = vae_tiling;
+    params->free_params_immediately = free_params_immediately;
+    params->keep_clip_on_cpu = keep_clip_on_cpu;
+    params->keep_control_net_cpu = keep_control_net_cpu;
+    params->keep_vae_on_cpu = keep_vae_on_cpu;
 }

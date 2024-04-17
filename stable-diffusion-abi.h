@@ -50,7 +50,51 @@ STABLE_DIFFUSION_API sd_image_t *upscale_go(
         uint8_t *data
 );
 
-STABLE_DIFFUSION_API sd_ctx_t *new_sd_ctx_go(const char *model_path);
+typedef struct {
+    const char *model_path;
+    const char *vae_path;
+    const char *taesd_path;
+    const char *control_net_path;
+    const char *lora_model_dir;
+    const char *embed_dir;
+    const char *id_embed_dir;
+    bool vae_decode_only;
+    bool vae_tiling;
+    bool free_params_immediately;
+    int n_threads;
+    enum sd_type_t wType;
+    enum rng_type_t rng_type;
+    enum schedule_t schedule;
+    bool keep_clip_on_cpu;
+    bool keep_control_net_cpu;
+    bool keep_vae_on_cpu;
+} new_sd_ctx_go_params;
+
+STABLE_DIFFUSION_API new_sd_ctx_go_params *new_sd_ctx_params(
+        const char *model_path,
+        const char *lora_model_dir,
+        const char *vae_path,
+        int n_threads,
+        enum sd_type_t wtype,
+        enum rng_type_t rng_type,
+        enum schedule_t schedule
+);
+
+void new_sd_ctx_params_set(
+        new_sd_ctx_go_params *params,
+        const char *taesd_path,
+        const char *control_net_path,
+        const char *embed_dir,
+        const char *id_embed_dir,
+        bool vae_decode_only,
+        bool vae_tiling,
+        bool free_params_immediately,
+        bool keep_clip_on_cpu,
+        bool keep_control_net_cpu,
+        bool keep_vae_on_cpu
+);
+
+STABLE_DIFFUSION_API sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params);
 
 #ifdef __cplusplus
 }
