@@ -85,7 +85,7 @@ new_sd_ctx_go_params *new_sd_ctx_params(
         const char *model_path,
         const char *lora_model_dir,
         const char *vae_path,
-        int n_threads,
+        int16_t n_threads,
         enum sd_type_t wType,
         enum rng_type_t rng_type,
         enum schedule_t schedule
