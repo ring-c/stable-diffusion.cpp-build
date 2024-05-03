@@ -43,18 +43,18 @@ sd_image_t *upscale_go(
 ) {
     sd_image_t *output_image = new(sd_image_t);
 
+    if (ctx == NULL) {
+        LOG_DEBUG("ctx is NULL");
+        return output_image;
+    }
+
     sd_image_t input_image = sd_image_t{
             .width=width,
             .height=height,
             .channel=channel,
             .data=data,
     };
-
-    if (ctx == NULL) {
-        LOG_DEBUG("ctx is NULL");
-        return output_image;
-    }
-
+    
     output_image[0] = upscale(ctx, input_image, upscale_factor);
     return output_image;
 }

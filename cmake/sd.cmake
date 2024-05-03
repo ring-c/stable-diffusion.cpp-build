@@ -1,17 +1,17 @@
 include(FetchContent)
 # FetchContent_MakeAvailable was not added until CMake 3.14
-if(${CMAKE_VERSION} VERSION_LESS 3.14)
+if (${CMAKE_VERSION} VERSION_LESS 3.14)
     include(add_FetchContent_MakeAvailable.cmake)
-endif()
+endif ()
 
-set(SD_GIT_TAG  afea457eda9c1267d3aa2f3b5da3bb52775fe411)
-set(SD_GIT_URL  https://github.com/leejet/stable-diffusion.cpp)
+set(SD_GIT_TAG 036ba9e6d8901d2b4991c5dc1ec2ace538947c93)
+set(SD_GIT_URL https://github.com/leejet/stable-diffusion.cpp)
 #set(BUILD_SHARED_LIBS OFF)
 
 FetchContent_Declare(
-  sd
-  GIT_REPOSITORY    ${SD_GIT_URL}
-  GIT_TAG           ${SD_GIT_TAG}
+        sd
+        GIT_REPOSITORY ${SD_GIT_URL}
+        GIT_TAG ${SD_GIT_TAG}
 )
 FetchContent_MakeAvailable(sd)
 
