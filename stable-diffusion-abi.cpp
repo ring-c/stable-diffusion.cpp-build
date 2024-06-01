@@ -50,3 +50,18 @@ sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
             context_params->keep_vae_on_cpu
     );
 }
+
+struct ggml_context *ggml_init_go(size_t mSize) {
+    struct ggml_init_params params;
+    params.mem_size = mSize;
+    params.mem_size += 2 * ggml_tensor_overhead();
+    params.mem_buffer = NULL;
+    params.no_alloc = false;
+
+    return ggml_init(params);
+}
+
+void ggml_tensor_set_f32_go(struct ggml_tensor *tensor, float value, int l, int k = 0, int j = 0, int i = 0) {
+    *(float *) ((char *) (tensor->data) + i * tensor->nb[3] + j * tensor->nb[2] + k * tensor->nb[1] +
+                l * tensor->nb[0]) = value;
+}

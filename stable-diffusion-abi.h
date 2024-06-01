@@ -2,6 +2,7 @@
 #define STABLE_DIFFUSION_ABI_H
 
 #include "stable-diffusion.h"
+#include "ggml_extend.hpp"
 
 #ifdef STABLE_DIFFUSION_SHARED
 #if defined(_WIN32) && !defined(__MINGW32__)
@@ -51,6 +52,8 @@ typedef struct {
 } new_sd_ctx_go_params;
 
 STABLE_DIFFUSION_API sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params);
+STABLE_DIFFUSION_API struct ggml_context *ggml_init_go(size_t mSize);
+STABLE_DIFFUSION_API void ggml_tensor_set_f32_go(struct ggml_tensor *tensor, float value, int l, int k, int j, int i);
 
 #ifdef __cplusplus
 }
