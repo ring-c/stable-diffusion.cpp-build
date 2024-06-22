@@ -3,6 +3,7 @@
 
 #include "stable-diffusion.h"
 #include "ggml_extend.hpp"
+#include "utility"
 
 #ifdef STABLE_DIFFUSION_SHARED
 #if defined(_WIN32) && !defined(__MINGW32__)
