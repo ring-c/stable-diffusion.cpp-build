@@ -61,7 +61,17 @@ struct ggml_context *ggml_init_go(size_t mSize) {
     return ggml_init(params);
 }
 
-void ggml_tensor_set_f32_go(struct ggml_tensor *tensor, float value, int l, int k = 0, int j = 0, int i = 0) {
+void go_ggml_tensor_set_f32(struct ggml_tensor *tensor, float value, int l, int k = 0, int j = 0, int i = 0) {
     *(float *) ((char *) (tensor->data) + i * tensor->nb[3] + j * tensor->nb[2] + k * tensor->nb[1] +
                 l * tensor->nb[0]) = value;
+}
+
+void go_ggml_tensor_set_f32_randn(struct ggml_tensor *tensor, uint64_t seed) {
+    auto n = (uint32_t) ggml_nelements(tensor);
+    std::shared_ptr<RNG> rng = std::make_shared<STDDefaultRNG>();
+    rng->manual_seed(seed);
+    std::vector<float> random_numbers = rng->randn(n);
+    for (uint32_t i = 0; i < n; i++) {
+        ggml_set_f32_1d(tensor, i, random_numbers[i]);
+    }
 }

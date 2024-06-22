@@ -54,7 +54,8 @@ typedef struct {
 
 STABLE_DIFFUSION_API sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params);
 STABLE_DIFFUSION_API struct ggml_context *ggml_init_go(size_t mSize);
-STABLE_DIFFUSION_API void ggml_tensor_set_f32_go(struct ggml_tensor *tensor, float value, int l, int k, int j, int i);
+STABLE_DIFFUSION_API void go_ggml_tensor_set_f32(struct ggml_tensor *tensor, float value, int l, int k, int j, int i);
+STABLE_DIFFUSION_API void go_ggml_tensor_set_f32_randn(struct ggml_tensor *tensor, uint64_t seed);
 
 #ifdef __cplusplus
 }
