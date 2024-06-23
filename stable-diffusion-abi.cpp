@@ -51,7 +51,7 @@ sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
     );
 }
 
-struct ggml_context *ggml_init_go(size_t mSize) {
+struct ggml_context *go_ggml_init(size_t mSize) {
     struct ggml_init_params params;
     params.mem_size = mSize;
     params.mem_size += 2 * ggml_tensor_overhead();
@@ -73,5 +73,44 @@ void go_ggml_tensor_set_f32_randn(struct ggml_tensor *tensor, uint64_t seed) {
     std::vector<float> random_numbers = rng->randn(n);
     for (uint32_t i = 0; i < n; i++) {
         ggml_set_f32_1d(tensor, i, random_numbers[i]);
+    }
+}
+
+float go_ggml_tensor_get_f32(const ggml_tensor *tensor, int l, int k, int j, int i) {
+    if (tensor->buffer != NULL) {
+        float value;
+        ggml_backend_tensor_get(tensor, &value,
+                                i * tensor->nb[3] + j * tensor->nb[2] + k * tensor->nb[1] + l * tensor->nb[0],
+                                sizeof(float));
+        return value;
+    }
+    GGML_ASSERT(tensor->nb[0] == sizeof(float));
+    return *(float *) ((char *) (tensor->data) + i * tensor->nb[3] + j * tensor->nb[2] + k * tensor->nb[1] +
+                       l * tensor->nb[0]);
+}
+
+void go_ggml_tensor_scale(struct ggml_tensor *src, float scale) {
+    int64_t nElements = ggml_nelements(src);
+    float *data = (float *) src->data;
+    for (int i = 0; i < nElements; i++) {
+        data[i] = data[i] * scale;
+    }
+}
+
+void go_ggml_tensor_scale_output(struct ggml_tensor *src) {
+    int64_t nelements = ggml_nelements(src);
+    float *data = (float *) src->data;
+    for (int i = 0; i < nelements; i++) {
+        float val = data[i];
+        data[i] = (val + 1.0f) * 0.5f;
+    }
+}
+
+void go_ggml_tensor_clamp(struct ggml_tensor *src, float min, float max) {
+    int64_t nElements = ggml_nelements(src);
+    float *data = (float *) src->data;
+    for (int i = 0; i < nElements; i++) {
+        float val = data[i];
+        data[i] = val < min ? min : (val > max ? max : val);
     }
 }

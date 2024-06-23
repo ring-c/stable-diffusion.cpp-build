@@ -53,9 +53,17 @@ typedef struct {
 } new_sd_ctx_go_params;
 
 STABLE_DIFFUSION_API sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params);
-STABLE_DIFFUSION_API struct ggml_context *ggml_init_go(size_t mSize);
+
+STABLE_DIFFUSION_API struct ggml_context *go_ggml_init(size_t mSize);
+
 STABLE_DIFFUSION_API void go_ggml_tensor_set_f32(struct ggml_tensor *tensor, float value, int l, int k, int j, int i);
 STABLE_DIFFUSION_API void go_ggml_tensor_set_f32_randn(struct ggml_tensor *tensor, uint64_t seed);
+
+STABLE_DIFFUSION_API float go_ggml_tensor_get_f32(const ggml_tensor *tensor, int l, int k, int j, int i);
+
+STABLE_DIFFUSION_API void go_ggml_tensor_scale(struct ggml_tensor *src, float scale);
+STABLE_DIFFUSION_API void go_ggml_tensor_scale_output(struct ggml_tensor *src);
+STABLE_DIFFUSION_API void go_ggml_tensor_clamp(struct ggml_tensor *src, float min, float max);
 
 #ifdef __cplusplus
 }
