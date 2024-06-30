@@ -64,6 +64,8 @@ STABLE_DIFFUSION_API float go_ggml_tensor_get_f32(const ggml_tensor *tensor, int
 STABLE_DIFFUSION_API void go_ggml_tensor_scale(struct ggml_tensor *src, float scale);
 STABLE_DIFFUSION_API void go_ggml_tensor_scale_output(struct ggml_tensor *src);
 STABLE_DIFFUSION_API void go_ggml_tensor_clamp(struct ggml_tensor *src, float min, float max);
+STABLE_DIFFUSION_API struct ggml_tensor *
+go_vector_to_ggml_tensor_i32(struct ggml_context *ctx, const std::vector<int> &vec);
 
 #ifdef __cplusplus
 }

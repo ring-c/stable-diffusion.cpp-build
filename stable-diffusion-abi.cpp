@@ -114,3 +114,9 @@ void go_ggml_tensor_clamp(struct ggml_tensor *src, float min, float max) {
         data[i] = val < min ? min : (val > max ? max : val);
     }
 }
+
+struct ggml_tensor *go_vector_to_ggml_tensor_i32(struct ggml_context *ctx, const std::vector<int> &vec) {
+    struct ggml_tensor *t = ggml_new_tensor_1d(ctx, GGML_TYPE_I32, vec.size());
+    memcpy(t->data, (const void *) vec.data(), ggml_nbytes(t));
+    return t;
+}
