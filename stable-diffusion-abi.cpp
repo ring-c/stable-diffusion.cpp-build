@@ -1,7 +1,8 @@
 #include "stable-diffusion-abi.h"
-#include "stable-diffusion.h"
-#include "util.h"
+//#include "stable-diffusion.h"
+//#include "util.h"
 #include <string>
+#include "examples/cli/main.cpp"
 
 sd_image_t *upscale_go(
         upscaler_ctx_t *ctx,
@@ -51,6 +52,10 @@ sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
 //    LOG_DEBUG("TEST context_params->keep_vae_on_cpu %d", context_params->keep_vae_on_cpu);
 //    LOG_DEBUG("\n\n\n\n\n");
 
+    SDParams params;
+    params.verbose = true;
+    params.color = true;
+    sd_set_log_callback(sd_log_cb, &params);
 
     return new_sd_ctx(
             context_params->model_path,
