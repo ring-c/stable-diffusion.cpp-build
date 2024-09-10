@@ -52,11 +52,14 @@ sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
 //    LOG_DEBUG("TEST context_params->keep_vae_on_cpu %d", context_params->keep_vae_on_cpu);
 //    LOG_DEBUG("\n\n\n\n\n");
 
+    ggml_backend_cuda_log_set_callback(NULL, NULL);
+    
     if (context_params->with_logs) {
         SDParams params;
         params.verbose = true;
         params.color = true;
         sd_set_log_callback(sd_log_cb, &params);
+        ggml_backend_cuda_log_set_callback(ggml_log_callback_default, NULL);
     }
 
     return new_sd_ctx(
