@@ -39,11 +39,12 @@ typedef struct {
     bool keep_vae_on_cpu;
     bool vae_tiling;
     bool with_logs;
+    bool show_debug;
 
-    int n_threads;
-    int wType;
-    int rng_type;
-    int schedule;
+    uint8_t n_threads;
+    uint8_t wType;
+    uint8_t rng_type;
+    uint8_t schedule;
 
 } new_sd_ctx_go_params;
 
