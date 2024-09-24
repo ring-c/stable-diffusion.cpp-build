@@ -1,6 +1,4 @@
 #include "stable-diffusion-abi.h"
-//#include "stable-diffusion.h"
-//#include "util.h"
 #include <string>
 #include "examples/cli/main.cpp"
 
@@ -48,7 +46,6 @@ sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
         LOG_DEBUG("TEST context_params->keep_control_net_cpu %d", context_params->keep_control_net_cpu);
         LOG_DEBUG("TEST context_params->keep_vae_on_cpu %d", context_params->keep_vae_on_cpu);
         LOG_DEBUG("TEST context_params->vae_tiling %d", context_params->vae_tiling);
-        LOG_DEBUG("TEST context_params->with_logs %d", context_params->with_logs);
         LOG_DEBUG("TEST context_params->show_debug %d", context_params->show_debug);
 
         LOG_DEBUG("\n");
@@ -62,14 +59,6 @@ sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
     }
 
     ggml_backend_cuda_log_set_callback(NULL, NULL);
-
-    if (context_params->with_logs) {
-        SDParams params;
-        params.verbose = true;
-        params.color = true;
-        sd_set_log_callback(sd_log_cb, &params);
-        ggml_backend_cuda_log_set_callback(ggml_log_callback_default, NULL);
-    }
 
     return new_sd_ctx(
             context_params->model_path,

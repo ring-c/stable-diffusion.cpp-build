@@ -38,7 +38,6 @@ typedef struct {
     bool keep_control_net_cpu;
     bool keep_vae_on_cpu;
     bool vae_tiling;
-    bool with_logs;
     bool show_debug;
 
     uint8_t n_threads;
