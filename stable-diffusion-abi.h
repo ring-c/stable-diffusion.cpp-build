@@ -47,7 +47,7 @@ typedef struct {
 
 } new_sd_ctx_go_params;
 
-STABLE_DIFFUSION_API sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params);
+STABLE_DIFFUSION_API go_sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params);
 
 STABLE_DIFFUSION_API sd_image_t *upscale_go(
         upscaler_ctx_t *ctx,

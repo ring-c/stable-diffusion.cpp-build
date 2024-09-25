@@ -28,7 +28,7 @@ sd_image_t *upscale_go(
     return output_image;
 }
 
-sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
+go_sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
     if (context_params->show_debug) {
         LOG_DEBUG("\n\n\n\n\n");
         LOG_DEBUG("TEST context_params->model_path %s", context_params->model_path);
@@ -60,22 +60,13 @@ sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
 
     ggml_backend_cuda_log_set_callback(NULL, NULL);
 
-    return new_sd_ctx(
+    return go_new_sd_ctx(
             context_params->model_path,
-            "",
-            "",
-            "",
             context_params->vae_path,
-            context_params->taesd_path,
-            context_params->control_net_path,
             context_params->lora_model_dir,
-            context_params->embed_dir,
-            context_params->id_embed_dir,
             context_params->vae_decode_only,
             context_params->vae_tiling,
             context_params->free_params_immediately,
-            context_params->n_threads,
-            sd_type_t(context_params->wType),
             rng_type_t(context_params->rng_type),
             schedule_t(context_params->schedule),
             context_params->keep_clip_on_cpu,
