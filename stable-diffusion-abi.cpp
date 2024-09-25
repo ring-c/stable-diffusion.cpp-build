@@ -65,12 +65,6 @@ go_sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
             context_params->vae_path,
             context_params->lora_model_dir,
             context_params->vae_decode_only,
-            context_params->vae_tiling,
-            context_params->free_params_immediately,
-            rng_type_t(context_params->rng_type),
-            schedule_t(context_params->schedule),
-            context_params->keep_clip_on_cpu,
-            context_params->keep_control_net_cpu,
-            context_params->keep_vae_on_cpu
+            context_params->free_params_immediately
     );
 }
