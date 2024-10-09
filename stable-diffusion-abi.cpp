@@ -1,5 +1,4 @@
 #include "stable-diffusion-abi.h"
-#include "examples/cli/main.cpp"
 #include <string>
 
 sd_image_t *upscale_go(upscaler_ctx_t *ctx, uint32_t upscale_factor,
