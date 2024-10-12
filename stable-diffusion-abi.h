@@ -25,6 +25,9 @@ extern "C" {
 
 typedef struct {
   const char *model_path;
+  const char *diffusion_model_path;
+  const char *clip_l_path;
+  const char *t5xxl_path;
   const char *vae_path;
   const char *taesd_path;
   const char *control_net_path;
