@@ -61,7 +61,7 @@ sd_ctx_t *new_sd_ctx_go(new_sd_ctx_go_params *context_params) {
     LOG_DEBUG("\n\n\n\n\n");
   }
 
-  ggml_backend_cuda_log_set_callback(NULL, NULL);
+  //  ggml_backend_cuda_log_set_callback(NULL, NULL);
 
   return new_sd_ctx(
       context_params->model_path, context_params->clip_l_path,
